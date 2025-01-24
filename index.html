@@ -16,35 +16,64 @@
         <div class="main-container">
             <h1 id="title">Calculator</h1>
 
-            <label for="am">Amount: </label>
-            <input type="number" id="am" name="am">
+            <div>
+                <label for="am">Amount: </label>
+                <input type="number" id="am" name="am">
+            </div>
 
-            <label for="n">Years: </label>
-            <input type="number" id="n" name="n">
+            <div>
+                <label for="n">Years: </label>
+                <input type="number" id="n" name="n">
+            </div>
 
-            <label for="r">Rate: </label>
-            <input type="number" id="r" name="r">
+            <div>
+                <label for="r">Rate (in %): </label>
+                <input type="number" id="r" name="r">
+            </div>
 
-            <label for="m">Compounded: </label>
+            <div class="ad">
+                <div>
+                    <input type="radio" id="ad-false" name="ad" value="false" checked="">
+                    <label for="false">Ordinary Annuity (EOP)</label>
+                </div>
 
-            <select name="m" id="m">
-                <option value="1">Annually</option>
-                <option value="2">Semi-Annually</option>
-                <option value="4">Quarterly</option>
-                <option value="6">Bi-Monthly</option>
-                <option value="12">Monthly</option>
-                <option value="365">Daily</option>
-                <option value="8760">Hourly</option>
-                <option value="525600">Minutely</option>
-                <option value="31536000">Secondly</option>
-                <option value="e">Continuously</option>
-            </select>
+                <div>
+                    <input type="radio" id="ad-true" name="ad" value="true">
+                    <label for="true">Annuity Due (BOP)</label>
+                </div>
+            </div>
 
-            <button type="submit" class="btn btn-primary mb-2" id="PV" onclick="PV()">Present Value</button>
-            <button type="submit" class="btn btn-primary mb-2" id="PV" onclick="FV()">Future Value</button>
-            <button type="submit" class="btn btn-primary mb-2" id="PV" onclick="PVA()">Present Value Annuity</button>
-            <button type="submit" class="btn btn-primary mb-2" id="PV" onclick="FVA()">Future Value Annuity</button>
+            <div class="compounded">
+                <label for="m">Compounded: </label>
+
+                <select name="m" id="m">
+                    <option value="1">Annually</option>
+                    <option value="2">Semi-Annually</option>
+                    <option value="4">Quarterly</option>
+                    <option value="6">Bi-Monthly</option>
+                    <option value="12">Monthly</option>
+                    <option value="365">Daily</option>
+                    <option value="8760">Hourly</option>
+                    <option value="525600">Minutely</option>
+                    <option value="31536000">Secondly</option>
+                </select>
+            </div>
+
+            <div class="buttons">
+                <div>
+                    <button type="submit" class="btn btn-primary mb-2" id="PV" onclick="PV()">Present Value</button>
+                    <button type="submit" class="btn btn-primary mb-2" id="FV" onclick="FV()">Future Value</button>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary mb-2" id="PVA" onclick="PVA()">Present Value Annuity</button>
+                    <button type="submit" class="btn btn-primary mb-2" id="FVA" onclick="FVA()">Future Value Annuity</button>
+                </div>
+            </div>
+
+            <p id="answer"></p>
         </div>
         <script src="script.js"></script>
+
+
     </body>
 </html>
