@@ -3,7 +3,7 @@ let current_npv_years = 0;
 // Does the y0 input exist
 let y0 = false;
 
-// Accepted IRR range is (-100,000% to 100,000%)
+// Accepted IRR range is (-100% to 100,000%)
 const LOWER_BOUND = -1
 const UPPER_BOUND = 1000
 
