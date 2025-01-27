@@ -16,64 +16,115 @@
         <div class="main-container">
             <h1 id="title">Calculator</h1>
 
-            <div>
-                <label for="am">Amount: </label>
-                <input type="number" id="am" name="am">
-            </div>
+            <div class="annuity">
+                <h2>Annuity</h2>
 
-            <div>
-                <label for="n">Years: </label>
-                <input type="number" id="n" name="n">
-            </div>
-
-            <div>
-                <label for="r">Rate (in %): </label>
-                <input type="number" id="r" name="r">
-            </div>
-
-            <div class="ad">
                 <div>
-                    <input type="radio" id="ad-false" name="ad" value="false" checked="">
-                    <label for="false">Ordinary Annuity (EOP)</label>
+                    <label for="ann-am">Amount: </label>
+                    <input type="number" id="ann-am" name="ann-am">
                 </div>
 
                 <div>
-                    <input type="radio" id="ad-true" name="ad" value="true">
-                    <label for="true">Annuity Due (BOP)</label>
+                    <label for="ann-n">Years: </label>
+                    <input type="number" id="ann-n" name="ann-n">
                 </div>
-            </div>
 
-            <div class="compounded">
-                <label for="m">Compounded: </label>
-
-                <select name="m" id="m">
-                    <option value="1">Annually</option>
-                    <option value="2">Semi-Annually</option>
-                    <option value="4">Quarterly</option>
-                    <option value="6">Bi-Monthly</option>
-                    <option value="12">Monthly</option>
-                    <option value="365">Daily</option>
-                    <option value="8760">Hourly</option>
-                    <option value="525600">Minutely</option>
-                    <option value="31536000">Secondly</option>
-                </select>
-            </div>
-
-            <div class="buttons">
                 <div>
-                    <button type="submit" class="btn btn-primary mb-2" id="PV" onclick="PV()">Present Value</button>
-                    <button type="submit" class="btn btn-primary mb-2" id="FV" onclick="FV()">Future Value</button>
+                    <label for="ann-r">Discount Rate (in %): </label>
+                    <input type="number" id="ann-r" name="ann-r">
                 </div>
-                <div>
-                    <button type="submit" class="btn btn-primary mb-2" id="PVA" onclick="PVA()">Present Value Annuity</button>
-                    <button type="submit" class="btn btn-primary mb-2" id="FVA" onclick="FVA()">Future Value Annuity</button>
+
+                <div class="ad">
+                    <div>
+                        <input type="radio" id="ad-false" name="ad" value="false" checked="">
+                        <label for="false">Ordinary Annuity (EOP)</label>
+                    </div>
+
+                    <div>
+                        <input type="radio" id="ad-true" name="ad" value="true">
+                        <label for="true">Annuity Due (BOP)</label>
+                    </div>
                 </div>
+
+                <div class="compounded">
+                    <label for="ann-m">Compounded: </label>
+
+                    <select name="ann-m" id="ann-m">
+                        <option value="1">Annually</option>
+                        <option value="2">Semi-Annually</option>
+                        <option value="4">Quarterly</option>
+                        <option value="6">Bi-Monthly</option>
+                        <option value="12">Monthly</option>
+                        <option value="365">Daily</option>
+                        <option value="8760">Hourly</option>
+                        <option value="525600">Minutely</option>
+                        <option value="31536000">Secondly</option>
+                    </select>
+                </div>
+
+                <div class="buttons">
+                    <div>
+                        <button type="submit" class="btn btn-primary mb-2" id="PV" onclick="PV()">Present Value</button>
+                        <button type="submit" class="btn btn-primary mb-2" id="FV" onclick="FV()">Future Value</button>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary mb-2" id="PVA" onclick="PVA()">Present Value Annuity</button>
+                        <button type="submit" class="btn btn-primary mb-2" id="FVA" onclick="FVA()">Future Value Annuity</button>
+                    </div>
+                </div>
+
+                <p id="ann-result"></p>
             </div>
 
-            <p id="answer"></p>
+            <div class="perpetuity">
+                <h2>Perpetuity</h2>
+
+                <div>
+                    <label for="perp-am">Amount: </label>
+                    <input type="number" id="perp-am" name="perp-am">
+                </div>
+
+                <div>
+                    <label for="perp-r">Discount Rate (in %): </label>
+                    <input type="number" id="perp-r" name="perp-r">
+                </div>
+
+                <div>
+                    <label for="perp-g">Growth Rate (in %): </label>
+                    <input type="number" id="perp-g" name="perp-g">
+                </div>
+
+                <div class="buttons">
+                    <button type="submit" class="btn btn-primary mb-2" id="perp" onclick="perp()">Perpetuity</button>
+                </div>
+
+                <p id="perp-result"></p>
+            </div>
+
+            <div class="npv">
+                <h2>NPV</h2>
+
+                <div>
+                    <label for="npv-r">Discount Rate (in %): </label>
+                    <input type="number" id="npv-r" name="npv-r">
+                </div>
+
+                <div>
+                    <label for="npv-n">Years: </label>
+                    <input type="number" id="npv-n" name="npv-n" onchange="npv_years()">
+                </div>
+
+                <div class="npv-years-div" id="npv-years-div"></div>
+
+                <div class="buttons">
+                    <button type="submit" class="btn btn-primary mb-2" id="NPV" onclick="NPV()">NPV</button>
+                    <button type="submit" class="btn btn-primary mb-2" id="IRR" onclick="IRR()">IRR</button>
+                </div>
+
+                <p id="npv-result"></p>
+            </div>
         </div>
+
         <script src="script.js"></script>
-
-
     </body>
 </html>
