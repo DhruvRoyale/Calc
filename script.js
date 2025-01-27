@@ -196,11 +196,8 @@ function find_IRR(lb, ub, tolerance, data) {
 
     let npv_value = find_NPV(rate, data)
 
-    console.log(lb, rate, ub, npv_value, tolerance)
-
     // If deviation is within the tolerated amount, return
     if (Math.abs(npv_value) <= Math.abs(tolerance)) {
-        console.log(rate)
         return round(rate * 100, DEFAULT_ROUNDING_PLACES)
     }
 
