@@ -3,11 +3,12 @@ let current_npv_years = 0;
 // Does the y0 input exist
 let y0 = false;
 
-// Accepted IRR range is (-10,000% to 10,000%)
-const LOWER_BOUND = -100
-const UPPER_BOUND = 100
+// Accepted IRR range is (-100,000% to 100,000%)
+const LOWER_BOUND = -1
+const UPPER_BOUND = 1000
 
 const DEFAULT_ROUNDING_PLACES = 4
+const TOLERANCE_LEVEL = 0.000001
 
 function get_data() {
     // Annuity
@@ -115,7 +116,7 @@ function npv_years() {
     let diff = new_npv_years - current_npv_years
     let starting_year = current_npv_years + 1
 
-    if (!y0) {
+    if (!y0 && new_npv_years >= 1) {
         starting_year = 0
         y0 = true
     }
@@ -177,13 +178,13 @@ function find_NPV(r, data) {
 function IRR() {
     let data = get_data()
     
-    // Setting 0.01% of the average cash flow per year as a tolerance level around 0
+    // Setting a percent of the average cash flow per year as a tolerance level around 0
     let avg_cash_flow = 0;
     for (let i = 0; i < data["npv-year-values"].length; i++) {
-        avg_cash_flow += data["npv-year-values"][i] / data["npv-year-values"].length
+        avg_cash_flow += Math.abs(data["npv-year-values"][i]) / data["npv-year-values"].length
     }
 
-    let tolerance = avg_cash_flow * 0.0001
+    let tolerance = avg_cash_flow * TOLERANCE_LEVEL
 
     let irr_result = find_IRR(LOWER_BOUND, UPPER_BOUND, tolerance, data["npv-year-values"])
 
@@ -195,8 +196,11 @@ function find_IRR(lb, ub, tolerance, data) {
 
     let npv_value = find_NPV(rate, data)
 
+    console.log(lb, rate, ub, npv_value, tolerance)
+
     // If deviation is within the tolerated amount, return
     if (Math.abs(npv_value) <= Math.abs(tolerance)) {
+        console.log(rate)
         return round(rate * 100, DEFAULT_ROUNDING_PLACES)
     }
 
