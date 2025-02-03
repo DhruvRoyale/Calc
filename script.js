@@ -5,10 +5,9 @@ let y0 = false;
 
 // Accepted IRR range is (-100% to 100,000%)
 const LOWER_BOUND = -1
-const UPPER_BOUND = 1000
+const UPPER_BOUND = 100
 
 const DEFAULT_ROUNDING_PLACES = 4
-const TOLERANCE_LEVEL = 0.000001
 
 function get_data() {
     // Annuity
@@ -61,7 +60,7 @@ function PV() {
 
     let pvif = (1/((1 + (data["ann-r"] / data["ann-m"])) ** (data["ann-m"] * data["ann-n"])))
 
-    document.querySelector('#ann-result').innerHTML = "Present Value = " + find_annuity(pvif).toLocaleString()
+    document.querySelector('#ann-result').innerHTML = "Present Value = " + format(find_annuity(pvif))
 }
 
 function FV() {
@@ -69,7 +68,7 @@ function FV() {
 
     let fvif = ((1 + (data["ann-r"] / data["ann-m"])) ** (data["ann-m"] * data["ann-n"]))
 
-    document.querySelector('#ann-result').innerHTML = "Future Value = " + find_annuity(fvif).toLocaleString()
+    document.querySelector('#ann-result').innerHTML = "Future Value = " + format(find_annuity(fvif))
 }
 
 function PVA() {
@@ -77,7 +76,7 @@ function PVA() {
 
     let pvifa = ((1 - (1 / (1 + (data["ann-r"] / data["ann-m"])) ** (data["ann-m"] * data["ann-n"]))) / (data["ann-r"] / data["ann-m"]))
 
-    document.querySelector('#ann-result').innerHTML = "Present Value of the Annuity = " + find_annuity(pvifa).toLocaleString()
+    document.querySelector('#ann-result').innerHTML = "Present Value of the Annuity = " + format(find_annuity(pvifa))
 }
 
 function FVA() {
@@ -85,7 +84,7 @@ function FVA() {
 
     let fvifa = (((1 + (data["ann-r"] / data["ann-m"])) ** (data["ann-m"] * data["ann-n"]) - 1) / (data["ann-r"] / data["ann-m"]))
 
-    document.querySelector('#ann-result').innerHTML = "Future Value of the Annuity = " + find_annuity(fvifa).toLocaleString()
+    document.querySelector('#ann-result').innerHTML = "Future Value of the Annuity = " + format(find_annuity(fvifa))
 }
 
 function find_annuity(factor) {
@@ -108,7 +107,7 @@ function perp() {
     perp_result = data["perp-am"] / (data["perp-r"] - data["perp-g"])
     perp_result = round(perp_result, DEFAULT_ROUNDING_PLACES)
 
-    document.querySelector('#perp-result').innerHTML = "Present value of the perpetuity = " + perp_result.toLocaleString()
+    document.querySelector('#perp-result').innerHTML = "Present value of the perpetuity = " + format(perp_result)
 }
 
 function npv_years() {
@@ -162,7 +161,7 @@ function npv_years() {
 function NPV() {
     let data = get_data()
 
-    document.querySelector('#npv-result').innerHTML = "NPV = " + find_NPV(data["npv-r"], data["npv-year-values"]).toLocaleString()
+    document.querySelector('#npv-result').innerHTML = "NPV = " + format(find_NPV(data["npv-r"], data["npv-year-values"]))
 }
 
 function find_NPV(r, data) {
@@ -177,37 +176,52 @@ function find_NPV(r, data) {
 
 function IRR() {
     let data = get_data()
-    
-    // Setting a percent of the average cash flow per year as a tolerance level around 0
-    let avg_cash_flow = 0;
-    for (let i = 0; i < data["npv-year-values"].length; i++) {
-        avg_cash_flow += Math.abs(data["npv-year-values"][i]) / data["npv-year-values"].length
+
+    let irr_result = find_IRR(data["npv-year-values"])
+    console.log(irr_result, irr_result.length)
+
+    if (irr_result.length > 1) {
+        for (let i = 0; i < irr_result.length; i++) {
+            irr_result[i] = format(irr_result[i]) + "%"
+        }
+
+        document.querySelector('#npv-result').innerHTML = "The IRRs are: " + irr_result.join(", ")
+    } else if (irr_result.length == 1) {
+        document.querySelector('#npv-result').innerHTML = "IRR = " + format(irr_result[0]) + "%"
+    } else {
+        document.querySelector('#npv-result').innerHTML = "Unable to find any IRRs"
     }
-
-    let tolerance = avg_cash_flow * TOLERANCE_LEVEL
-
-    let irr_result = find_IRR(LOWER_BOUND, UPPER_BOUND, tolerance, data["npv-year-values"])
-
-    document.querySelector('#npv-result').innerHTML = "IRR = " + irr_result.toLocaleString() + "%"
 }
 
-function find_IRR(lb, ub, tolerance, data) {
-    let rate = (lb + ub) / 2
+function find_IRR(data) {
+    let sign = ""
+    let irr_list = []
 
-    let npv_value = find_NPV(rate, data)
+    for (let i = LOWER_BOUND * 10000; i <= UPPER_BOUND * 10000; i++) {
+        let current_irr = i / 10000
+        let npv = find_NPV(current_irr / 100, data)
+        
+        if (npv < 0) {
+            if (sign == "+") {
+                irr_list.push(current_irr)
+            }
 
-    // If deviation is within the tolerated amount, return
-    if (Math.abs(npv_value) <= Math.abs(tolerance)) {
-        return round(rate * 100, DEFAULT_ROUNDING_PLACES)
+            sign = "-"
+        } else {
+            if (sign == "-") {
+                irr_list.push(current_irr)
+            }
+
+            sign = "+"
+        }
     }
-
-    if (npv_value < 0) {
-        return find_IRR(lb, rate, tolerance, data)
-    } else {
-        return find_IRR(rate, ub, tolerance, data)
-    }
+    return irr_list
 }
 
 function round(number, dec_places) {
     return parseFloat(number.toFixed(dec_places))
+}
+
+function format(text) {
+    return text.toLocaleString("en-US", {maximumFractionDigits: 4})
 }
