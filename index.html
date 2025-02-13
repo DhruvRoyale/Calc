@@ -123,6 +123,157 @@
 
                 <p id="npv-result"></p>
             </div>
+
+            <div class="bonds">
+                <h2>Bonds</h2>
+
+                <div>
+                    <label for="bonds-rv">Redemption Value: </label>
+                    <input type="number" id="bonds-rv" name="bonds-rv">
+                </div>
+
+                <div>
+                    <label for="bonds-rv">YTM (in %): </label>
+                    <input type="number" id="bonds-ytm" name="bonds-ytm">
+                </div>
+
+                <div>
+                    <label for="bonds-rv">Coupon Rate (in %): </label>
+                    <input type="number" id="bonds-cr" name="bonds-cr">
+                </div>
+
+                <div>
+                    <label for="bonds-rv">Years: </label>
+                    <input type="number" id="bonds-n" name="bonds-n">
+                </div>
+
+                <div class="compounded">
+                    <label for="bonds-m">Compounded: </label>
+
+                    <select name="bonds-m" id="bonds-m">
+                        <option value="1">Annually</option>
+                        <option value="2">Semi-Annually</option>
+                        <option value="4">Quarterly</option>
+                        <option value="6">Bi-Monthly</option>
+                        <option value="12">Monthly</option>
+                        <option value="365">Daily</option>
+                        <option value="8760">Hourly</option>
+                        <option value="525600">Minutely</option>
+                        <option value="31536000">Secondly</option>
+                    </select>
+                </div>
+
+                <div class="buttons">
+                    <button type="submit" class="btn btn-primary mb-2" id="bond-price" onclick="bond_price()">Price</button>
+                    <button type="submit" class="btn btn-primary mb-2" id="bond-duration" onclick="bond_duration()">Duration</button>
+                </div>
+
+                <p id="bonds-result"></p>
+            </div>
+
+            <div class="portfolio">
+                <h2>Portfolio Duration</h2>
+
+                <div>
+                    <table>
+                        <tr>
+                            <td></td>
+                            <td>Price</td>
+                            <td>Duration</td>
+                        </tr>
+                        <tr>
+                            <td>Bond A: </td>
+                            <td><input type="number" id="portfolio-price-a" name="portfolio-price-a"></td>
+                            <td><input type="number" id="portfolio-duration-a" name="portfolio-duration-a"></td>
+                        </tr>
+                        <tr>
+                            <td>Bond B: </td>
+                            <td><input type="number" id="portfolio-price-b" name="portfolio-price-b"></td>
+                            <td><input type="number" id="portfolio-duration-b" name="portfolio-duration-b"></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="buttons">
+                    <button type="submit" class="btn btn-primary mb-2" id="portfolio-duration" onclick="portfolio_duration()">Portfolio Duration</button>
+                </div>
+
+                <p id="portfolio-result"></p>
+            </div>
+
+            <div class="immunisation">
+                <h2>Immunisation</h2>
+
+                <div>
+                    <label for="immunisation-obligation">Obligation: </label>
+                    <input type="number" id="immunisation-obligation" name="immunisation-obligation">
+                </div>
+
+                <div>
+                    <label for="immunisation-n">Years: </label>
+                    <input type="number" id="immunisation-n" name="immunisation-n">
+                </div>
+
+                <div>
+                    <label for="immunisation-ytm">YTM (in %): </label>
+                    <input type="number" id="immunisation-ytm" name="immunisation-ytm">
+                </div>
+
+                <div class="compounded">
+                    <label for="immunisation-m">Compounded: </label>
+
+                    <select name="immunisation-m" id="immunisation-m">
+                        <option value="1">Annually</option>
+                        <option value="2" selected>Semi-Annually</option>
+                        <option value="4">Quarterly</option>
+                        <option value="6">Bi-Monthly</option>
+                        <option value="12">Monthly</option>
+                        <option value="365">Daily</option>
+                        <option value="8760">Hourly</option>
+                        <option value="525600">Minutely</option>
+                        <option value="31536000">Secondly</option>
+                    </select>
+                </div>
+
+                <div id="immunisation-bond-number-container">
+                    <label for="immunisation-bond-number">Number of Different Bonds: </label>
+                    <input type="number" id="immunisation-bond-number" name="immunisation-bond-number" onchange="immunisation_bonds()">
+                </div>
+
+                <div id="immunisation-table-container">
+                    <table id="immunisation-table" hidden>
+                        <tr>
+                            <td></td>
+                            <td>Rate (in %)</td>
+                            <td>Maturity</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="buttons">
+                    <button type="submit" class="btn btn-primary mb-2" id="immunisation" onclick="immunisation()">Find Best Investment</button>
+                </div>
+
+                <div id="immunisation-result" hidden>
+                    <table id="immunisation-result-table">
+                        <tr>
+                            <td class="row-header" class="result-table">Best Combination: </td>
+                            <td id="best-bond-a" class="result-table"></td>
+                            <td id="best-bond-b" class="result-table"></td>
+                        </tr>
+                        <tr>
+                            <td class="row-header" class="result-table">Investment Amount: </td>
+                            <td id="investment-a" class="result-table"></td>
+                            <td id="investment-b" class="result-table"></td>
+                        </tr>
+                        <tr>
+                            <td class="row-header" class="result-table">Number of Bonds: </td>
+                            <td id="bond-num-a" class="result-table"></td>
+                            <td id="bond-num-b" class="result-table"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <script src="script.js"></script>
